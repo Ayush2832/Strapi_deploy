@@ -36,7 +36,7 @@ jobs:
     # Changing version of the image by coverting tlp file to scipt and passing arguments
     - name: Changing image version
       run: |
-        IMAGE="${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}"
+        IMAGE="ayush2832:${{ env.IMAGE_TAG }}"
         sed "s|{{docker_image}}|$IMAGE|g" terraform/scriptcopy.sh.tpl > terraform/script.sh
 
     - name: Show generated script
