@@ -36,7 +36,7 @@ jobs:
     # Changing version of the image by coverting tlp file to scipt and passing arguments
     - name: Changing image version
       run: |
-        IMAGE="${{ secrets.IMAGE_NAME }}:${{ secrets.IMAGE_TAG }}"
+        IMAGE="${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}"
         sed "s|{{docker_image}}|$IMAGE|g" terraform/scriptcopy.sh.tpl > terraform/scipt.sh
 
       
@@ -51,5 +51,7 @@ jobs:
     - name: Terraform Apply
       run: terraform apply -auto-approve -var="public_key=${{ secrets.PUBLIC_KEY }}"
       working-directory: ./terraform
-      
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     
