@@ -79,4 +79,4 @@ jobs:
         tags: ${{ secrets.DOCKER_USERNAME }}/strapi2:v${{ github.run_number }}
 ```
 
-- 
+- Changes
