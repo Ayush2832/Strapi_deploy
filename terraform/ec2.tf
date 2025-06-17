@@ -33,7 +33,7 @@ resource "aws_security_group" "nsg1" {
 }
 
 resource "aws_key_pair" "deployer" {
-  key_name   = "publickey"
+  key_name   = "publickey2"
   public_key = var.public_key
 }
 
