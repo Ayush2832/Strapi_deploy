@@ -30,4 +30,4 @@ JWT_SECRET=bdipEHxkpPS5PNwYpj0dLA==
 EOF
 
 # Pull docker image and run 
-sudo docker run -d --name Strapi_cont -p 1337:1337 --env-file ~/.env {{docker_image}}
+sudo docker run -d --name Strapi_cont -p 1337:1337 --env-file /home/ubuntu/.env {{docker_image}}

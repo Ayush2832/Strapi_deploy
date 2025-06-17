@@ -39,7 +39,9 @@ jobs:
         IMAGE="${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}"
         sed "s|{{docker_image}}|$IMAGE|g" terraform/scriptcopy.sh.tpl > terraform/script.sh
 
-      
+    - name: Show generated script
+      run: cat terraform/script.sh
+
     # setup terraform and run Init and apply
     - name: terraform setup
       uses: hashicorp/setup-terraform@v3
