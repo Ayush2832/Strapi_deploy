@@ -1,0 +1,60 @@
+name: Deploy Strapi
+
+on:
+  push:
+    branches: main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      PUBLIC_KEY: ${{ secrets.PUBLIC_KEY }}
+      IMAGE_TAG: v${{ github.run_number }}
+      IMAGE_NAME: ${{ env.DOCKER_USERNAME }}/strapi2
+
+    steps:
+    # Fetching the code
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    # Login to the Docker hub
+    - name: Log in to DockerHub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ env.DOCKER_USERNAME }}
+        password: ${{ env.DOCKER_PASSWORD }}
+
+    # Build the image and push
+    - name: Build and Push Docker Image
+      uses: docker/build-push-action@v6
+      with:
+        context: ./strapi_task6
+        file: ./app/Dockerfile
+        push: true
+        tags: ${{IMAGE_NAME}}:${{IMAGE_TAG}}
+    
+    # Changing version of the image by coverting tlp file to scipt and passing arguments
+    - name: Changing image version
+      run: |
+        IMAGE="${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}"
+        sed "s|{{docker_image}}|$IMAGE|g" terraform/ec2/scriptcopy.sh.tpl > terraform/scipt.sh
+
+      
+    # setup terraform and run Init and apply
+    - name: terraform setup
+      uses: hashicorp/setup-terraform@v3
+
+    - name: Terraform init
+      run: terraform init
+      working-directory: ./terraform
+
+    - name: Terraform Apply
+      run: terraform apply -auto-approve -var="public_key=${{ env.PUBLIC_KEY }}"
+      working-directory: ./terraform
+      
+    

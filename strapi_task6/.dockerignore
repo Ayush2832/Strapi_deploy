@@ -1,0 +1,6 @@
+node_modules
+.env
+Dockerfile
+README.md
+strapi_db
+./strapi_db
