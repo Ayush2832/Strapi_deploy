@@ -10,7 +10,7 @@ jobs:
 
     env:
       IMAGE_TAG: v${{ github.run_number }}
-      IMAGE_NAME: ${{ env.DOCKER_USERNAME }}/strapi2
+      IMAGE_NAME: ${{ secrets.DOCKER_USERNAME }}/strapi2
 
     steps:
     # Fetching the code
@@ -31,7 +31,7 @@ jobs:
         context: ./strapi_task6
         file: ./strapi_task6/Dockerfile
         push: true
-        tags: ${{IMAGE_NAME}}:${{IMAGE_TAG}}
+        tags: ${{env.IMAGE_NAME}}:${{env.IMAGE_TAG}}
     
     # Changing version of the image by coverting tlp file to scipt and passing arguments
     - name: Changing image version
