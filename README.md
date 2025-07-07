@@ -1,4 +1,4 @@
-# Task 6 : Make a new github repository and make a github workflow to Build Push and start the terraform code do task-5
+# Create github workflow to Build Push and start the terraform.
 
 ## 1. Strapi image
 - First we have to setup our strapi app using
